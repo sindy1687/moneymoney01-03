@@ -1,0 +1,5 @@
+/* 一律載入：這三個檔含有不限主題的全域規則，會影響所有主題的外觀。
+ * 其餘 css/themes/*.css 改由 js/theme-css-loader.js 依目前主題按需載入。 */
+@import url("themes/money.css");
+@import url("themes/mono.css");
+@import url("themes/obsidian.css");
