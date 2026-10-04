@@ -5,52 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>記帳 - 主輸入畫面</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff69b4'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='white'>💰</text></svg>">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="emerald-dream-theme.css">
-    <link rel="stylesheet" href="flame-theme.css">
-    <link rel="stylesheet" href="shinchan-theme.css">
-    <link rel="stylesheet" href="shinchan-pool-theme.css">
-    <link rel="stylesheet" href="festive-theme.css">
-    <link rel="stylesheet" href="dreamy-galaxy-theme.css">
-    <link rel="stylesheet" href="whimsical-starry-theme.css">
-    <link rel="stylesheet" href="cute-pastel-theme.css">
-    <link rel="stylesheet" href="cyberpunk-city-theme.css">
+    <link rel="stylesheet" href="css/theme-shared-keyframes.css">
+    <!-- 主題 CSS 按需載入（js/theme-css-loader.js）：根目錄的 *-theme.css 插在 slot a，css/themes/*.css 插在 slot b，維持原本的載入順序 -->
+    <meta name="theme-css-slot-a">
+    <link rel="stylesheet" href="css/styles-themes.css">
+    <meta name="theme-css-slot-b">
+    <link rel="stylesheet" href="css/theme-system.css">
     <link rel="stylesheet" href="searchHistory.css">
-    <link rel="stylesheet" href="quick-notes-custom.css">
-        <link rel="stylesheet" href="halloween-theme.css">
-    <link rel="stylesheet" href="getrich-cats-theme.css">
-    <link rel="stylesheet" href="fortune-noble-theme.css">
-    <link rel="stylesheet" href="gold-ingot-theme.css">
-    <link rel="stylesheet" href="dynamic-wealth-theme.css">
-    <link rel="stylesheet" href="anime-golden-blue-theme.css">
-    
-    <!-- Google Fonts - 美觀字體系統 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&family=Clash+Display:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/smart-accounting.css">
+    <link rel="stylesheet" href="css/smart-reminders.css">
+    <!-- 文字可讀性修正：必須最後載入 -->
+    <link rel="stylesheet" href="css/readability-fixes.css">
+    <!-- 字體大小連動：全站文字跟著「設定 → 字體大小」縮放 -->
+    <script src="js/font-scale.js?v=20261004"></script>
+    <!-- 所有按鈕跟著主題背景圖的顏色（色票由 tools/build-theme-button-palette.ps1 產生） -->
+    <script src="js/theme-button-palette.js?v=20261004f"></script>
+    <script src="js/theme-button-colors.js?v=20261004f"></script>
+
+    <!-- defer：不阻擋首次畫面；app-bootstrap.js 會等它載入後才啟動程式 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <div class="theme-video-background" aria-hidden="true">
-        <video id="moneyThemeVideo" class="theme-video" autoplay loop muted playsinline preload="auto">
-            <source src="https://v1.pinimg.com/videos/iht/expMp4/a4/53/29/a45329a21920d8db7a7f778daa592453_720w.mp4" type="video/mp4">
-        </video>
-        <video id="spaceThemeVideo" class="theme-video" autoplay loop muted playsinline preload="auto">
-            <source src="https://v1.pinimg.com/videos/iht/720p/4e/00/d1/4e00d1999152ab007ebe4aef36d5e2c9.mp4" type="video/mp4">
-        </video>
-        <video id="shinchanPoolThemeVideo" class="theme-video" autoplay loop muted playsinline preload="auto">
-            <source src="https://v1.pinimg.com/videos/iht/expMp4/76/35/eb/7635eb2cc1d1c08a867742f7144faf11_720w.mp4" type="video/mp4">
-        </video>
-        <video id="nightglowSeasonsThemeVideo" class="theme-video" autoplay loop muted playsinline preload="auto">
-            <source src="https://v1.pinimg.com/videos/iht/expMp4/c7/39/73/c739737a7c0471e01fa4e606507d0a48_720w.mp4" type="video/mp4">
-        </video>
-        <video id="cyberpunkCityThemeVideo" class="theme-video" autoplay loop muted playsinline preload="auto">
-            <source src="https://v1.pinimg.com/videos/iht/expMp4/f0/38/aa/f038aad8dd17f765f1c3c975a4e869f0_720w.mp4" type="video/mp4">
-        </video>
-        <div class="theme-video-gradient"></div>
-    </div>
     <!-- 記帳輸入頁面 -->
     <div class="page-input" id="pageInput" style="display: none;">
         <div class="app-container">
@@ -154,10 +130,7 @@
             
             <!-- 常用備註按鈕 -->
             <div class="quick-notes-container" id="quickNotesContainer">
-                <div class="quick-notes-header">
-                    <div class="quick-notes-label">常用備註：</div>
-                    <button class="add-quick-note-btn" id="addQuickNoteBtn" title="新增常用備註">➕</button>
-                </div>
+                <div class="quick-notes-label">常用備註：</div>
                 <div class="quick-notes-buttons" id="quickNotesButtons">
                     <button class="quick-note-btn" data-note="早餐">🍳 早餐</button>
                     <button class="quick-note-btn" data-note="午餐">🍱 午餐</button>
@@ -432,6 +405,7 @@
         <div class="ledger-header">
             <button class="search-btn" id="searchBtn">🔍</button>
             <h2 class="ledger-title">默認帳本</h2>
+            <button class="ai-housekeeper-btn smart-reminders-btn" id="aiHousekeeperBtn" title="AI管家">🤖 AI管家</button>
         </div>
 
         <!-- 搜索框 -->
@@ -766,11 +740,23 @@
     <div class="page-settings" id="pageSettings" style="display: none;">
         <div class="settings-header">
             <button class="back-btn" id="settingsBackBtn">←</button>
-            <h2 class="settings-title">設置</h2>
+            <h2 class="settings-title">設定</h2>
         </div>
 
         <div class="settings-list" id="settingsList">
-            <!-- 設定項目將由 JavaScript 動態生成 -->
+            <!-- Google Drive 雲端備份區塊將由 JavaScript 動態插入 -->
+        </div>
+    </div>
+
+    <!-- 每月摘要頁面 -->
+    <div class="page-monthly-summary" id="pageMonthlySummary" style="display: none;">
+        <div class="monthly-summary-header">
+            <button class="back-btn" id="monthlySummaryBackBtn">←</button>
+            <h2 class="monthly-summary-title">每月收入支出清單</h2>
+        </div>
+
+        <div class="monthly-summary-container" id="monthlySummaryList">
+            <!-- 每月摘要將由 JavaScript 動態生成 -->
         </div>
     </div>
 
@@ -1067,16 +1053,6 @@
             <!-- 頁面標題 -->
             <div class="investment-page-header">
                 <h2 class="page-title">投資專區</h2>
-                <div class="enhanced-tracking-buttons" style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button class="tracking-btn" id="investmentAnalysisBtn" style="padding: 8px 16px; background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <span>📈</span>
-                        <span>詳細分析</span>
-                    </button>
-                    <button class="tracking-btn" id="investmentHistoryBtn" style="padding: 8px 16px; background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                        <span>📋</span>
-                        <span>投資歷史</span>
-                    </button>
-                </div>
             </div>
 
             <!-- 持股清單 -->
@@ -1350,7 +1326,7 @@
 
                 <!-- 買入日期 -->
                 <div class="form-field">
-                    <label class="form-label">買入日期</label>
+                    <label class="form-label" id="calcDateLabelEl">買入日期</label>
                     <div class="form-date-wrapper">
                         <input type="date" 
                                class="form-input form-date-input" 
@@ -1361,7 +1337,7 @@
 
                 <!-- 買入價格 -->
                 <div class="form-field">
-                    <label class="form-label">買入價格</label>
+                    <label class="form-label" id="calcPriceLabelEl">買入價格</label>
                     <input type="number" 
                            class="form-input" 
                            id="calcPriceInput" 
@@ -1428,6 +1404,27 @@
                                id="calcAutoFeeCheckbox">
                         <span class="form-checkbox-text">系統自動計算（0.1425%，最低20元）</span>
                     </label>
+                </div>
+
+                <!-- 證交稅（賣出時顯示） -->
+                <div class="form-field" id="calcTaxFieldContainer" style="display: none;">
+                    <label class="form-label">證交稅</label>
+                    <input type="number" class="form-input" id="calcTaxInput" placeholder="預設 0.3%" step="1" min="0" value="0">
+                    <label class="form-checkbox-label" style="margin-top: 8px;">
+                        <input type="checkbox" class="form-checkbox" id="calcAutoTaxCheckbox" checked>
+                        <span class="form-checkbox-text">系統自動計算（0.3%）</span>
+                    </label>
+                </div>
+
+                <!-- 賣出試算結果（賣出時顯示） -->
+                <div class="form-field" id="sellCalcResultContainer" style="display: none;">
+                    <div class="calc-result">
+                        <div class="calc-row"><span>賣出金額：</span><span id="calcSellAmount">NT$0</span></div>
+                        <div class="calc-row"><span>手續費＋稅：</span><span id="calcSellCost">NT$0</span></div>
+                        <div class="calc-row"><span>平均成本：</span><span id="calcCostAmount">NT$0</span></div>
+                        <div class="calc-row highlight"><span>預估實現損益：</span><span id="calcEstimatedPnl" class="pnl-value">NT$0</span></div>
+                        <div class="calc-row"><span>報酬率：</span><span id="calcEstimatedReturn">0%</span></div>
+                    </div>
                 </div>
 
                 <!-- 定期定額選項（僅買入時顯示） -->
@@ -1724,8 +1721,34 @@
             </div>
             <div class="form-group">
                 <div class="calc-result">
-                    <span>預估實現損益：</span>
-                    <span id="estimatedPnl" class="pnl-value">NT$0</span>
+                    <div class="calc-row">
+                        <span>賣出金額：</span>
+                        <span id="sellAmount">NT$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>成本金額：</span>
+                        <span id="costAmount">NT$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>手續費：</span>
+                        <span id="sellFeeDisplay">NT$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>證交稅：</span>
+                        <span id="sellTaxDisplay">NT$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>淨收入：</span>
+                        <span id="netRevenue">NT$0</span>
+                    </div>
+                    <div class="calc-row highlight">
+                        <span>預估實現損益：</span>
+                        <span id="estimatedPnl" class="pnl-value">NT$0</span>
+                    </div>
+                    <div class="calc-row">
+                        <span>報酬率：</span>
+                        <span id="estimatedReturn">0%</span>
+                    </div>
                 </div>
             </div>
             <button class="submit-btn" id="submitSell">記錄賣出</button>
@@ -1937,27 +1960,27 @@
     <!-- 底部導航欄 -->
     <div class="bottom-nav">
         <button class="nav-item active" data-page="ledger">
-            <img src="./image/1.png?t=20251220" alt="記帳本" class="nav-icon">
+            <img src="./image/1.png?t=20261004" alt="記帳本" class="nav-icon">
             <span class="nav-text">記帳本</span>
         </button>
         <button class="nav-item" data-page="wallet">
-            <img src="./image/2.png?t=20251220" alt="錢包" class="nav-icon">
+            <img src="./image/2.png?t=20261004" alt="錢包" class="nav-icon">
             <span class="nav-text">錢包</span>
         </button>
          <button class="nav-item" data-page="monthlyPlanner">
-             <img src="./image/6.png?t=20251220" alt="每月規劃" class="nav-icon">
+             <img src="./image/6.png?t=20261004" alt="每月規劃" class="nav-icon">
              <span class="nav-text">每月規劃</span>
          </button>
         <button class="nav-item" data-page="investment">
-            <img src="./image/3.png?t=20251220" alt="投資專區" class="nav-icon">
+            <img src="./image/3.png?t=20261004" alt="投資專區" class="nav-icon">
             <span class="nav-text">投資專區</span>
         </button>
         <button class="nav-item" data-page="chart">
-            <img src="./image/4.png?t=20251220" alt="圖表分析" class="nav-icon">
+            <img src="./image/4.png?t=20261004" alt="圖表分析" class="nav-icon">
             <span class="nav-text">圖表分析</span>
         </button>
         <button class="nav-item" data-page="settings">
-            <img src="./image/5.png?t=20251220" alt="設置" class="nav-icon">
+            <img src="./image/5.png?t=20261004" alt="設置" class="nav-icon">
             <span class="nav-text">設置</span>
         </button>
     </div>
@@ -1990,14 +2013,14 @@
             
             <div class="form-field">
                 <label class="form-label">轉出帳戶</label>
-                <select class="form-select" id="transferFromAccount">
+                <select class="form-select" id="autoTransferFromAccount">
                     <!-- 帳戶選項將由 JavaScript 動態生成 -->
                 </select>
             </div>
-            
+
             <div class="form-field">
                 <label class="form-label">轉入帳戶</label>
-                <select class="form-select" id="transferToAccount">
+                <select class="form-select" id="autoTransferToAccount">
                     <!-- 帳戶選項將由 JavaScript 動態生成 -->
                 </select>
             </div>
@@ -2034,32 +2057,44 @@
     </div>
 
     <!-- 模組化腳本 -->
-    <script src="js/categories.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/advisor.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/dynamic-wealth-fix.js"></script>
-    <script src="js/autoTransfer.js"></script>
+    <script type="application/x-player-script" data-src="js/categories.js"></script>
+    <script type="application/x-player-script" data-src="js/storage.js"></script>
+    <script type="application/x-player-script" data-src="js/storage-manager.js"></script>
+    <script type="application/x-player-script" data-src="js/advisor-chat.js"></script>
+    <script type="application/x-player-script" data-src="js/theme.js?v=20261004f"></script>
+    <script type="application/x-player-script" data-src="js/autoTransfer.js"></script>
+    <!-- 智慧記帳功能 -->
+    <script type="application/x-player-script" data-src="js/smart-accounting.js"></script>
+    <!-- 智慧記帳整合功能 -->
+    <script type="application/x-player-script" data-src="js/smart-accounting-integration.js?v=20261004"></script>
+    <!-- 智慧提醒系統 -->
+    <script type="application/x-player-script" data-src="js/smart-reminders.js?v=20261004b"></script>
     <!-- 性能優化器 -->
-    <script src="js/performance-optimizer-simple.js"></script>
-    <!-- 增強投資追蹤系統 -->
-    <script src="enhanced-investment-tracker.js"></script>
-    <!-- 投資追蹤模態框 -->
-    <script src="investment-modals.js"></script>
-    <!-- 自動化全資料備份還原系統 -->
-    <script src="universal-data-backup.js"></script>
+    <script type="application/x-player-script" data-src="js/performance-optimizer-simple.js"></script>
+    <!-- 蝴蝶忍、可愛粉彩主題的文字顏色修正（取代原本 7 個 *_fix.js） -->
+    <script type="application/x-player-script" data-src="js/theme-text-fixes.js"></script>
+
+    <script type="application/x-player-script" data-src="cloud-upload-config.js?v=20261004"></script>
+    <script type="application/x-player-script" data-src="js/player-cloud-upload.js?v=20261004"></script>
     <!-- 主腳本（保留其他功能） -->
-    <script src="script.js?v=20251227_1"></script>
-    <script src="js/monthly-deductions-bridge.js"></script>
-    <script src="searchHistoryInit.js" type="module"></script>
+    <script type="application/x-player-script" data-src="js/app/01-core-input-investment.js?v=20261004f"></script>
+    <script type="application/x-player-script" data-src="js/app/sell-calculation-enhancement.js"></script>
+    <script type="application/x-player-script" data-src="js/disable-mori-features.js"></script>
+    <script type="application/x-player-script" data-src="js/app/monthly-summary.js"></script>
+    <script type="application/x-player-script" data-src="js/app/monthly-summary-nav.js"></script>
+    <script type="application/x-player-script" data-src="js/app/02-ledger-budget-settings.js?v=20261004e"></script>
+    <script type="application/x-player-script" data-src="js/app/03-reports-data-entry.js?v=20261004e"></script>
+    <script type="application/x-player-script" data-src="js/app/04-diary-investment-ui.js?v=20251227_1"></script>
+    <script type="application/x-player-script" data-src="js/app/05-dca-accounts-upload.js?v=20261004e"></script>
+    <script type="application/x-player-script" data-src="searchHistoryInit.js" data-script-type="module"></script>
     
     <!-- 自動修復投資卡片背景圖片 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <script type="application/x-player-script">
+        document.addEventListener('playerappready', function() {
             // 等待主題系統載入
             setTimeout(function() {
                 // 檢查是否為節日慶典主題
-                const currentTheme = localStorage.getItem('selectedTheme') || localStorage.getItem('theme') || 'blue';
+                const currentTheme = playerStorage.getItem('selectedTheme') || playerStorage.getItem('theme') || 'blue';
                 
                 if (currentTheme === 'festive') {
                     console.log('檢測到節日慶典主題，應用投資卡片背景圖片...');
@@ -2136,5 +2171,8 @@
             }, 1000);
         });
     </script>
+<script src="js/theme-css-loader.js?v=20261004f"></script>
+<script src="js/player-storage.js?v=20261004d"></script>
+<script src="js/app-bootstrap.js?v=20261004d"></script>
 </body>
 </html>
