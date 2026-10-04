@@ -1279,9 +1279,21 @@ function shuffleProxies() {
 
 // 透過自己的 Apps Script（cloud-upload-config.js 的 serviceUrl）代查證交所/櫃買報價。
 // 同時查上市與上櫃，回傳 { price, prevClose }；服務未部署或失敗時回傳 null，改走公開代理。
-async function fetchTwseQuoteViaOwnService(stockCode) {
-    const base = window.PLAYER_CLOUD_UPLOAD && window.PLAYER_CLOUD_UPLOAD.serviceUrl;
+// 同一檔股票同時被多處要求時共用同一次查詢，60 秒內重複查詢直接用上次結果（服務端也只快取 60 秒）。
+const ownQuoteRequests = new Map();
+function fetchTwseQuoteViaOwnService(stockCode) {
     const code = String(stockCode || '').toUpperCase();
+    const entry = ownQuoteRequests.get(code);
+    if (entry && Date.now() - entry.at < 60000) return entry.promise;
+    const promise = fetchTwseQuoteViaOwnServiceOnce(code);
+    ownQuoteRequests.set(code, { at: Date.now(), promise });
+    // 失敗不快取，下次可以重試
+    promise.then(result => { if (!result) ownQuoteRequests.delete(code); });
+    return promise;
+}
+
+async function fetchTwseQuoteViaOwnServiceOnce(code) {
+    const base = window.PLAYER_CLOUD_UPLOAD && window.PLAYER_CLOUD_UPLOAD.serviceUrl;
     if (!base || !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(base) || !/^[0-9A-Z]{4,8}$/.test(code)) return null;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -2508,7 +2520,7 @@ function editCustomCategory(categoryName, categoryType) {
         
         const pageInput = document.getElementById('pageInput');
         if (pageInput && pageInput.style.display !== 'none') {
-            const activeTab = document.querySelector('.tab-btn.active');
+            const activeTab = document.querySelector('.tab-section .tab-btn.active');
             const tabType = activeTab ? activeTab.dataset.tab : 'more';
             initCategoryGrid(tabType, null);
         }
@@ -2602,7 +2614,7 @@ function deleteCustomCategory(categoryName, categoryType) {
     // 6. 重新初始化分類網格
     const pageInput = document.getElementById('pageInput');
     if (pageInput && pageInput.style.display !== 'none') {
-        const activeTab = document.querySelector('.tab-btn.active');
+        const activeTab = document.querySelector('.tab-section .tab-btn.active');
         const tabType = activeTab ? activeTab.dataset.tab : 'more';
         initCategoryGrid(tabType, null);
         console.log('✓ 分類網格已更新');
@@ -2625,7 +2637,7 @@ function deleteCustomCategory(categoryName, categoryType) {
 
 // 初始化標籤切換
 function initTabSwitching() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabButtons = document.querySelectorAll('.tab-section .tab-btn');
     
     tabButtons.forEach(btn => {
         // 移除舊的事件監聽器（避免重複綁定）
@@ -2638,7 +2650,7 @@ function initTabSwitching() {
             console.log('點擊 tab 按鈕:', tabType);
             
             // 移除所有活動狀態
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-section .tab-btn').forEach(b => b.classList.remove('active'));
             
             // 添加活動狀態到當前按鈕
             newBtn.classList.add('active');
@@ -2714,7 +2726,7 @@ function initHeaderTabs() {
             }
             
             // 重新初始化分類網格（顯示所有分類，不分類型）
-            const activeTabBtn = document.querySelector('.tab-btn.active');
+            const activeTabBtn = document.querySelector('.tab-section .tab-btn.active');
             const tabType = activeTabBtn ? activeTabBtn.dataset.tab : 'recommended';
             initCategoryGrid(tabType, null); // 傳入 null 表示顯示所有分類
             
