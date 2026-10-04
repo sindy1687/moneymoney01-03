@@ -154,14 +154,6 @@ const buttonIcons = {
         navChart: '📊',
         navSettings: '⚙️'
     },
-    cyberpunk: {
-        fab: '🤖',
-        navLedger: '🗂️',
-        navWallet: '💳',
-        navInvestment: '💹',
-        navChart: '📈',
-        navSettings: '🛠️'
-    },
     money: {
         fab: '💸',
         navLedger: '📒',
@@ -274,6 +266,22 @@ const buttonIcons = {
         navChart: '🌌',
         navSettings: '✨'
     },
+    littlePrinceWhaleNight: {
+        fab: '👑',
+        navLedger: '📖',
+        navWallet: '🐋',
+        navInvestment: '📈',
+        navChart: '🌌',
+        navSettings: '⚙️'
+    },
+    littlePrince: {
+        fab: '👑',
+        navLedger: '📖',
+        navWallet: '🌟',
+        navInvestment: '📈',
+        navChart: '✨',
+        navSettings: '⚙️'
+    },
     getrich: {
         fab: '🧧',
         navLedger: '📖',
@@ -282,13 +290,53 @@ const buttonIcons = {
         navChart: '📊',
         navSettings: '⚙️'
     },
-    animeGoldenBlue: {
-        fab: '🎧',
-        navLedger: '🎧',
-        navWallet: '🎧',
-        navInvestment: '🎧',
-        navChart: '🎧',
-        navSettings: '🎧'
+    cozyWood: {
+        fab: '🪵',
+        navLedger: '📒',
+        navWallet: '🧺',
+        navInvestment: '🌿',
+        navChart: '📊',
+        navSettings: '🪛'
+    },
+    amberRonin: {
+        fab: '🍁',
+        navLedger: '🗡️',
+        navWallet: '🪙',
+        navInvestment: '📈',
+        navChart: '📊',
+        navSettings: '⚙️'
+    },
+    serpentEyes: {
+        fab: '👁️',
+        navLedger: '📜',
+        navWallet: '🪙',
+        navInvestment: '📈',
+        navChart: '📊',
+        navSettings: '⚙️'
+    },
+    kitsuneElegance: {
+        fab: '🦊',
+        navLedger: '📒',
+        navWallet: '🪙',
+        navInvestment: '📈',
+        navChart: '📊',
+        navSettings: '⚙️'
+    },
+    pikachuSnow: {
+        fab: '⚡',
+        navLedger: '📘',
+        navWallet: '💎',
+        navInvestment: '📈',
+        navChart: '📊',
+        navSettings: '⚙️'
+    },
+    blackCatCoinGalaxy: {
+        fab: '🪙',
+        navLedger: '📒',
+        navWallet: '🪙',
+        navInvestment: '📈',
+        navChart: '✨',
+        navSettings: '⚙️'
     }
 };
 
